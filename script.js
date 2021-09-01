@@ -1,53 +1,42 @@
 "use strict";
 
 
+// Call-back функции
 
-
-// Интерполяция
-
-const typeGoods = 'food';
-
-//console.log('https://market.com/' + typeGoods);
-
-//console.log('https://market.com/' + typeGoods + '/' + '10');
-
-console.log(`https://market.com/${typeGoods}`);
-
-
-// Задание 1 
-
-var category = 'games';
-var genre = 'strategy';
-var page = '10';
-
-console.log(`https://market.com/${category}/${genre}/${page}`);
-
-
-
-// Стрелочные функции
-
-let number = 10;
-
-function showMessage(text) {
-    console.log(text);
-    console.log(number);
+function server() {
+    setTimeout(function() {
+        console.log(1);
+    }, 1000)
 }
-
-showMessage("Hello!!!");
-console.log(number);
-
-const server = function() {
-    console.log('server start...');
+function foo() {
+    console.log(2);
 }
 
 server();
+foo();
 
-const calc = (x, y) => x + y;
+function serverNew(host, callback) {
+    console.log(`Server ${host} is starting...`);
+    callback();
+}
 
-console.log(calc(10, 5));
+function done() {
+    console.log('connect success!');
+}
+
+serverNew('MyServer', done);
 
 
-// Задание 2
+// Задание 
 
-const PiHello = () => "Hello! " + Math.PI;
-console.log(PiHello());
+function say(msg){
+    console.log(msg)
+}
+
+function msg(mul){
+    let num = Math.random() * mul
+    let rnd_num = Math.round(num * 10) / 10;
+    return rnd_num;
+}
+
+say(msg(10));
