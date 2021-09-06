@@ -1,42 +1,68 @@
 "use strict";
 
 
-// Call-back функции
+// Объекты, деструктуризация
 
-function server() {
-    setTimeout(function() {
-        console.log(1);
-    }, 1000)
+const option = {
+    name: 'test',
+    width: '640',
+    height: '480',
+    colors: {
+        border: 'black',
+        bg: 'red'
+    }
+};
+
+console.log(option.name);
+console.log(option['name']);
+
+// delete option.name;
+
+console.log(option);
+
+
+// Задание
+
+let game = {
+    name: 'The Story of Uniarka DEMO CT 1.6.1b',
+    window: {
+        width: '1280',
+        height: '720',
+        shaders: {
+            VBO: 'CTX',
+            colors: {
+                default: {
+                    red: "FF",
+                    green: "00",
+                    blue: "FF"
+                }              
+            }
+        }
+    },
+    size: '29.7 Mb',
+    author: 'Georg Laabe',
+    version: '0.1',
+    year: '2021',
+    engine: 'Clickteam Fusion 2.5',
+    language: 'English',
+    delete: function() {
+        game = null;
+        console.log("Successful Delete!");
+    },
+    ping: function(){
+        console.log("Pong!");
+    }
 }
-function foo() {
-    console.log(2);
+
+const func = function(option){  // Перебор с рекурсией
+    for (let key in option) {
+        if (typeof(option[key]) === 'object') {
+            func(option[key]);
+            continue;
+        }
+        console.log(option[key])
+    }
 }
 
-server();
-foo();
+func(game);
 
-function serverNew(host, callback) {
-    console.log(`Server ${host} is starting...`);
-    callback();
-}
-
-function done() {
-    console.log('connect success!');
-}
-
-serverNew('MyServer', done);
-
-
-// Задание 
-
-function say(msg){
-    console.log(msg)
-}
-
-function msg(mul){
-    let num = Math.random() * mul
-    let rnd_num = Math.round(num * 10) / 10;
-    return rnd_num;
-}
-
-say(msg(10));
