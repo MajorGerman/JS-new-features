@@ -1,68 +1,141 @@
 "use strict";
 
 
-// Объекты, деструктуризация
+// Массивы, псевдомассивы
 
-const option = {
-    name: 'test',
-    width: '640',
-    height: '480',
-    colors: {
-        border: 'black',
-        bg: 'red'
-    }
+const arr = [1, 2, 5, 8, 9];
+
+console.log(arr);
+
+arr.pop();       // Удалить последний элемент массива
+console.log(arr);
+
+arr.push(10);
+console.log(arr); // Добавить элемент в конец
+
+
+for (let i = 0; i < arr.length; i++) {          // Перебрать элементы
+    console.log(arr[i]);
+}
+
+for (let value of arr) {            // Не работает с объектом
+    console.log(value);
+}
+
+
+const arr2 = [1, 2, 5, 8, 9];       // Длина массива = Последний индекс + 1 
+// arr[99] = 0;     // Так делать нельзя
+console.log(arr2.length);
+console.log(arr2);
+
+
+// Перебрать массив (Нельзя остановить)
+
+arr2.forEach(function(item, i, arr2) {
+    console.log(`${i}: ${item} внутри массива ${arr2}` );
+});
+
+
+// Строку в массив
+
+const str = prompt("", "");
+const products = str.split(",");
+console.log(product);
+
+
+// Сортировка (всегда как строки)
+
+products.sort();
+console.log(products);
+
+
+// Обратная операция
+
+console.log(product.join("; "));
+
+
+// Функция для сортировки чисел.
+
+
+
+// Методы не работают для псевдомассивов
+
+
+// ...
+
+
+// Передача по значению
+
+let a = 5;
+    b = a;
+
+b = b + 5;
+
+console.log(b);
+console.log(a);
+
+
+// Передача по ссылке
+
+const obj = {
+    a: 5,
+    b: 1
+}
+
+const copy = obj;
+
+
+copy.a = 10; // Модифицирование копии в любом случае изменит оба объекта
+
+console.log(obj);
+console.log(copy);
+
+
+// Клонирование объектов
+
+const newObj = Object.assign({}, obj);
+newObj.a = 15;
+console.log(newObj);
+
+
+// Клонирование массивов
+
+const oldArray = ['a', 'x', 'y'];
+const newArray = oldArray.slice();
+
+newArray[0] = 5;
+console.log(oldArray);
+console.log(newArray);
+
+
+// Spread оператор, New features
+
+const video = ['youtube', 'vimeo', 'facebook'],
+        blogs = ['wordpress', 'twitter', 'bloger'],
+        internet = [...video, ...blogs, 'vk', 'instagram'];
+console.log(internet);
+
+function log(a, b, c) {
+    console.log(a);
+    console.log(b);
+    console.log(c);
+}
+
+const num = [2, 5, 8];
+
+log(...num);
+
+
+// Клонирование 
+
+const ar = [4, 3, 0];
+const NeWAr = [...ar];
+
+const aaa = {
+    first: 1,
+    second: 2
 };
 
-console.log(option.name);
-console.log(option['name']);
+const newA = {...aaa};
 
-// delete option.name;
-
-console.log(option);
-
-
-// Задание
-
-let game = {
-    name: 'The Story of Uniarka DEMO CT 1.6.1b',
-    window: {
-        width: '1280',
-        height: '720',
-        shaders: {
-            VBO: 'CTX',
-            colors: {
-                default: {
-                    red: "FF",
-                    green: "00",
-                    blue: "FF"
-                }              
-            }
-        }
-    },
-    size: '29.7 Mb',
-    author: 'Georg Laabe',
-    version: '0.1',
-    year: '2021',
-    engine: 'Clickteam Fusion 2.5',
-    language: 'English',
-    delete: function() {
-        game = null;
-        console.log("Successful Delete!");
-    },
-    ping: function(){
-        console.log("Pong!");
-    }
-}
-
-const func = function(option){  // Перебор с рекурсией
-    for (let key in option) {
-        if (typeof(option[key]) === 'object') {
-            func(option[key]);
-            continue;
-        }
-        console.log(option[key])
-    }
-}
-
-func(game);
 
