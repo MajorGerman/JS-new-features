@@ -1,85 +1,220 @@
 "use strict";
 
+const { response } = require("express");
 
-// REST - обратное преобразование SPREAD
 
-const log = function (a, b, ...other) {
-    console.log(a);
-    console.log(b);
-    console.log(other);
+// Promise
+
+// Promise похожи на call-back функции
+
+// Пример разрастания дерева call-back'ов (call-back hell)
+
+console.log("Запрос данных...");
+
+setTimeout(() => {
+    console.log("Подготовка данных...");
+
+    const product = {
+        name: 'phone',
+        price: 300
+    };
+
+    setTimeout(() => {
+
+        product.status = 'order';
+        console.log(product);
+    }, 2000);
+}, 2000);
+
+
+// То же самое, но с использованием Promise
+
+console.log("Запрос данных...");
+const req = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        console.log("Подготовка данных...");
+
+        const product = {
+            name: 'phone',
+            price: 300
+        };
+
+        resolve(product);
+    }, 2000);
+});
+
+req.then((product) => {
+    const req2 = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            product.status = 'order';
+            resolve(product);
+        }, 2000);
+    });
+    req2.then((data) => {
+        console.log(data)
+    })
+}); 
+
+
+// Рабочий вариант
+
+console.log("Запрос данных...");
+const req = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        console.log("Подготовка данных...");
+
+        const product = {
+            name: 'phone',
+            price: 300
+        };
+
+        resolve(product);
+    }, 2000);
+});
+
+req.then((product) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            product.status = 'order';
+            resolve(product);
+        }, 2000);
+    });
+}).then((data) => {
+    console.log(data);
+});
+
+
+// Рабочий вариант №2
+
+console.log("Запрос данных...");
+const req = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        console.log("Подготовка данных...");
+
+        const product = {
+            name: 'phone',
+            price: 300
+        };
+
+        resolve(product);
+    }, 2000);
+});
+
+req.then((product) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            product.status = 'order';
+            resolve(product);
+        }, 2000);
+    });
+}).then((data) => {
+    data.modify = 'true';
+    return data;
+}).then((data) => {
+    console.log(data);
+});
+
+
+// Рабочий вариант №3 (Catch)
+
+console.log("Запрос данных...");
+const req = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        console.log("Подготовка данных...");
+
+        const product = {
+            name: 'phone',
+            price: 300
+        };
+
+        resolve(product);
+    }, 2000);
+});
+
+req.then((product) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            product.status = 'order';
+            //resolve(product);
+            reject();
+        }, 2000);
+    });
+}).then((data) => {
+    data.modify = 'true';
+    return data;
+}).then((data) => {
+    console.log(data);
+}).catch(() => {
+    console.error('ERROR!');
+});
+
+
+// Рабочий вариант №4 (Finally)
+
+console.log("Запрос данных...");
+const req = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        console.log("Подготовка данных...");
+
+        const product = {
+            name: 'phone',
+            price: 300
+        };
+
+        resolve(product);
+    }, 2000);
+});
+
+req.then((product) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            product.status = 'order';
+            resolve(product);
+            reject();
+        }, 2000);
+    });
+}).then((data) => {
+    data.modify = 'true';
+    return data;
+}).then((data) => {
+    console.log(data);
+}).catch(() => {
+    console.error('ERROR!');
+}).finally(() => {
+    console.log("Все действия выполнены!");
+});
+
+
+// ------------------------- //
+
+const test = (time) => {
+    return new Promise((resolve) => {
+        setTimeout(() => resolve(), time);
+    });
 };
 
-log('test1', 'test2', 'test3', 'test4');
+test(1000).then(() => console.log('1000 ms'));
+test(2000).then(() => console.log('2000 ms'));
+
+Promise.all([test(4000), test(1000)]).then(() => {
+    console.log('All');
+});
 
 
-// Параметры по умолчанию
+// Fetch API
 
-function calcOrDouble (first, second = 2) {
-    //second = second || 2;     // Раньше делали так
-    return first * second;
-}
+fetch('https://jsonplaceholder.typicode.com/todos/1')
+    .then((response) => response.json())
+    .then((json) => console.log(json));
 
-console.log(calcOrDouble(5));
+    fetch('https://jsonplaceholder.typecode.com/posts', {
+        method: "POST",
+        body: JSON.stringify({name: "Alex"}),
+        headers: {
+            'Content-type': 'application/json'
+        }
+    })
+    .then((response) => response.json())
+    .then((json) => console.log(json));
 
-
-// JSON
-
-const person = {    // Нам бы очень хотелось отправить это, но мы не можем
-    name: 'Alex',
-    age: 28
-}
-
-let toServer = JSON.stringify(person);  // А вот это уже можем
-console.log(toServer);
-
-let fromServer = JSON.parse(toServer);  // И даже можем восстановить его!
-console.log(fromServer);
-
-
-// Глубокое клонирование объекта
-
-const clone = JSON.parse(JSON.stringify(person));
-clone.name = 'Ann';
-console.log(person);
-console.log(clone);
-
-
-// Задание
-
-const food = {
-    name: 'Watermelon',
-    organic: true,
-    callories: 130,
-    size_x: 0.4,
-    size_y: 0.45,
-    size_z: 0.6,
-    volumic_weight: {
-        volume: 7,
-        weight: 5.7
-    }
-}
-
-const jsonFood = JSON.stringify(food);
-console.log(jsonFood);
-
-const notJsonAgainFood = JSON.parse(jsonFood);
-console.log(notJsonAgainFood);
-
-{/* <root>
-   <callories>130</callories>
-   <name>Watermelon</name>
-   <organic>true</organic>
-   <size_x>0.4</size_x>
-   <size_y>0.45</size_y>
-   <size_z>0.6</size_z>
-   <volumic_weight>
-      <volume>7</volume>
-      <weight>5.7</weight>
-   </volumic_weight>
-</root> */}
-
-const foodClone = JSON.parse(JSON.stringify(food));
-foodClone.callories = '380';
-
-console.log(food);
-console.log(foodClone);
+    
