@@ -1,141 +1,85 @@
 "use strict";
 
 
-// Массивы, псевдомассивы
+// REST - обратное преобразование SPREAD
 
-const arr = [1, 2, 5, 8, 9];
-
-console.log(arr);
-
-arr.pop();       // Удалить последний элемент массива
-console.log(arr);
-
-arr.push(10);
-console.log(arr); // Добавить элемент в конец
-
-
-for (let i = 0; i < arr.length; i++) {          // Перебрать элементы
-    console.log(arr[i]);
-}
-
-for (let value of arr) {            // Не работает с объектом
-    console.log(value);
-}
-
-
-const arr2 = [1, 2, 5, 8, 9];       // Длина массива = Последний индекс + 1 
-// arr[99] = 0;     // Так делать нельзя
-console.log(arr2.length);
-console.log(arr2);
-
-
-// Перебрать массив (Нельзя остановить)
-
-arr2.forEach(function(item, i, arr2) {
-    console.log(`${i}: ${item} внутри массива ${arr2}` );
-});
-
-
-// Строку в массив
-
-const str = prompt("", "");
-const products = str.split(",");
-console.log(product);
-
-
-// Сортировка (всегда как строки)
-
-products.sort();
-console.log(products);
-
-
-// Обратная операция
-
-console.log(product.join("; "));
-
-
-// Функция для сортировки чисел.
-
-
-
-// Методы не работают для псевдомассивов
-
-
-// ...
-
-
-// Передача по значению
-
-let a = 5;
-    b = a;
-
-b = b + 5;
-
-console.log(b);
-console.log(a);
-
-
-// Передача по ссылке
-
-const obj = {
-    a: 5,
-    b: 1
-}
-
-const copy = obj;
-
-
-copy.a = 10; // Модифицирование копии в любом случае изменит оба объекта
-
-console.log(obj);
-console.log(copy);
-
-
-// Клонирование объектов
-
-const newObj = Object.assign({}, obj);
-newObj.a = 15;
-console.log(newObj);
-
-
-// Клонирование массивов
-
-const oldArray = ['a', 'x', 'y'];
-const newArray = oldArray.slice();
-
-newArray[0] = 5;
-console.log(oldArray);
-console.log(newArray);
-
-
-// Spread оператор, New features
-
-const video = ['youtube', 'vimeo', 'facebook'],
-        blogs = ['wordpress', 'twitter', 'bloger'],
-        internet = [...video, ...blogs, 'vk', 'instagram'];
-console.log(internet);
-
-function log(a, b, c) {
+const log = function (a, b, ...other) {
     console.log(a);
     console.log(b);
-    console.log(c);
-}
-
-const num = [2, 5, 8];
-
-log(...num);
-
-
-// Клонирование 
-
-const ar = [4, 3, 0];
-const NeWAr = [...ar];
-
-const aaa = {
-    first: 1,
-    second: 2
+    console.log(other);
 };
 
-const newA = {...aaa};
+log('test1', 'test2', 'test3', 'test4');
 
 
+// Параметры по умолчанию
+
+function calcOrDouble (first, second = 2) {
+    //second = second || 2;     // Раньше делали так
+    return first * second;
+}
+
+console.log(calcOrDouble(5));
+
+
+// JSON
+
+const person = {    // Нам бы очень хотелось отправить это, но мы не можем
+    name: 'Alex',
+    age: 28
+}
+
+let toServer = JSON.stringify(person);  // А вот это уже можем
+console.log(toServer);
+
+let fromServer = JSON.parse(toServer);  // И даже можем восстановить его!
+console.log(fromServer);
+
+
+// Глубокое клонирование объекта
+
+const clone = JSON.parse(JSON.stringify(person));
+clone.name = 'Ann';
+console.log(person);
+console.log(clone);
+
+
+// Задание
+
+const food = {
+    name: 'Watermelon',
+    organic: true,
+    callories: 130,
+    size_x: 0.4,
+    size_y: 0.45,
+    size_z: 0.6,
+    volumic_weight: {
+        volume: 7,
+        weight: 5.7
+    }
+}
+
+const jsonFood = JSON.stringify(food);
+console.log(jsonFood);
+
+const notJsonAgainFood = JSON.parse(jsonFood);
+console.log(notJsonAgainFood);
+
+{/* <root>
+   <callories>130</callories>
+   <name>Watermelon</name>
+   <organic>true</organic>
+   <size_x>0.4</size_x>
+   <size_y>0.45</size_y>
+   <size_z>0.6</size_z>
+   <volumic_weight>
+      <volume>7</volume>
+      <weight>5.7</weight>
+   </volumic_weight>
+</root> */}
+
+const foodClone = JSON.parse(JSON.stringify(food));
+foodClone.callories = '380';
+
+console.log(food);
+console.log(foodClone);
