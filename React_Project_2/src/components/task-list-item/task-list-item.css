@@ -1,0 +1,72 @@
+.app-list-item {
+    font-size: 1.25rem;
+    justify-content: space-between;
+    transition: 0.4s;
+}
+
+.app-list-item button {
+    width: 35px;
+    height: 35px;
+    margin: 4px 6px 4px 4px;
+    font-size: 17px;
+    border: solid;
+    border-width: 2px;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.app-list-item button:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.app-list-item button:hover {
+    transform: scale(1.05);
+}
+
+.app-list-item .btn-exclamation {
+    color: #ce8b27;
+}
+
+.app-list-item .btn-trash {
+    color: rgb(124, 27, 27);
+}
+
+.app-list-item .fa-check {
+    width: 35px;
+    height: 35px;
+    margin-left: 25px;
+    text-align: center;
+    line-height: 35px;
+    font-size: 16px;
+    color: red;
+    transition: 0.3s all;
+    transform: translateX(30px);
+    opacity: 0;
+}
+
+.app-list-item-label {
+    display: block;
+    line-height: 35px;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.5s all;
+}
+
+.app-list-item.done .app-list-item-label {
+    opacity: 0.4;
+    transform: scale(0.95);
+}
+
+.app-list-item.done .fa-check {
+    opacity: 1;
+    transform: translateX(0px);
+}
+
+.app-list-item.important .app-list-item-label {
+    color: #e4b419;
+}
+
+.app-list-item.important .btn-exclamation {
+    color: #AEAEAE;
+}
